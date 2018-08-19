@@ -10,17 +10,15 @@ const LocalStrategy = require('passport-local').Strategy
 const SequelizeStore = require('connect-session-sequelize')(session.Store)
 
 const Op = Sequelize.Op
-const sequelize = new Sequelize('passportdb', 'postgres', 'lilfluffy22', {
-	host: 'localhost',
-	port: '5432',
-	dialect: 'postgres',
-	operatorsAliases:{
-		$and: Op.and,
-		$or: Op.or,
-		$eq: Op.eq,
-		$like: Op.like,
-		$iLike: Op.iLike
-	}
+const plugs = require('./plugs.js')
+const sequelize = new Sequelize(plugs.tableName, plugs.dialect, plugs.pw,{
+   host: plugs.localhost,
+   port: plugs.port,
+   dialect: plugs.dialect,
+   $and : Op.and,
+   $or: Op.or,
+   $eq: Op.eq,
+   $like: Op.like
 })
 
 const User = sequelize.define('user', {
